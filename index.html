@@ -36,8 +36,7 @@
                                         over
                                     </h3>
                                     <div class="mt-2">
-                                        <p class="text-sm text-gray-500">
-                                            The final winner is {winner}. Select RESTART to start your new game
+                                        <p class="text-sm text-gray-500" x-text="resultAnnounce()">
                                         </p>
                                     </div>
                                 </div>
@@ -103,7 +102,6 @@
             },
 
             makeMove(cell) {
-                this.winner = this.checkWinner()
                 console.log('state.winner', this.winner)
                 if (this.history.length) {
                     const { move } = this.history[this.history.length - 1]
@@ -111,6 +109,7 @@
                 }
 
                 this.history = [...this.history, { location: cell, move: this.nextMove }]
+                this.winner = this.checkWinner()
 
                 return this.nextMove === 'o' ? this.circle : this.cross
             },
@@ -126,6 +125,25 @@
                 this.winner = false
                 this.winArea = []
                 this.matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            resultAnnounce() {
+                const xWin = "The final winner is X. Select RESTART to start your new game."
+                const oWin = "The final winner is O. Select RESTART to start your new game."
+                const drawGame = "The result is draw game. Select RESTART to start your new game."
+
+                switch (this.winner) {
+                    case 'o':
+                        return oWin
+                        break;
+
+                    case 'x':
+                        return xWin
+                        break;
+                    default:
+                        console.log('this.winner', this.winner)
+                        return drawGame
+                        break;
+                }
             }
 
         }

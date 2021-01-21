@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic tac toe</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/d8032aac70.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <!-- Navigation bar  -->
+    <nav class="bg-gray-800">
+        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+            <div class="relative flex items-center justify-between">
+                <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="hidden sm:block sm:ml-6 py-5">
+                        <div class="flex space-x-4">
+                            <a href="/tic-tac-toe"
+                                class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Tic
+                                tac toe</a>
+                            <a href="/pokemon-search"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Pokemon
+                                search</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sm:hidden py-2">
+            <div class="px-2 pb-3 space-y-1">
+                <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Tic tac
+                    toe</a>
+                <a href="#"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Pokemon
+                    search</a>
+            </div>
+        </div>
+    </nav>
+    <!-- End of Navigation bar  -->
+    <!-- Tic tac toe game  -->
+    <div class="flex flex-col justify-center py-6 flex flex-col justify-center sm:py-12">
+        <div class="relative sm:max-w-xl sm:mx-auto py-3">
+            <div class="rounded-t-xl overflow-hidden p-8" x-data="game()">
+                <!-- Game board -->
+                <div class="grid grid-cols-3 w-60">
+                    <template x-if="notFoundWinner()" x-for="(cell, index) in _matrix" :key="index">
+                        <button class="border-gray-300 border-2 h-20 flex items-center justify-center text-5xl"
+                            :x-ref="index" x-on:click="$refs[index].innerHTML = makeMove(index)">
+                        </button>
+                    </template>
+                </div>
+                <!-- End of Game board -->
+
+                <!-- Game over popup -->
+                <template x-if="!notFoundWinner()">
+                    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                        role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div class="sm:flex sm:items-start">
+                                <div
+                                    class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                                    <i class="fas fa-smile-wink text-green-700 text-xl"></i>
+                                </div>
+                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">Game
+                                        over
+                                    </h3>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-gray-500" x-text="resultAnnounce()">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="button" @click="restart()"
+                                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                    RESTART
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <!-- End of Game over popup -->
+            </div>
+        </div>
+    </div>
+    <!-- End of Tic tac toe game  -->
+
+
+</body>
+<script>
+    function game() {
+        return {
+            circle: "<i class='far fa-circle text-green-700'></i>",
+            cross: "<i class='fas fa-times text-yellow-700'></i>",
+            history: [], // { location: null, move: null }
+            nextMove: 'o',
+            winner: false,
+            winArea: [],
+            matrix: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+            checkWinner() {
+                if (this.history.length) {
+                    const winningLocations = [
+                        [0, 1, 2],
+                        [3, 4, 5],
+                        [6, 7, 8],
+                        [0, 3, 6],
+                        [1, 4, 7],
+                        [2, 5, 8],
+                        [0, 4, 8],
+                        [2, 4, 6]
+                    ]
+
+                    const { move } = this.history[this.history.length - 1] // move = 'o', 'x'
+                    const locations = this.history.reduce((accumulator, currentValue) => {
+                        if (currentValue.move === move)
+                            return [...accumulator, currentValue.location]
+                        return accumulator
+                    }, [])
+
+                    for (let i = 0; i < winningLocations.length; i++) {
+                        const element = winningLocations[i];
+                        const result = element.every(value => locations.includes(value))
+                        if (result) {
+                            this.winArea = element
+                            this.winner = move
+                        }
+                    }
+
+                }
+                if (this.history.length === this.matrix.length)
+                    this.winner = true
+                return this.winner
+            },
+
+            makeMove(cell) {
+                console.log('state.winner', this.winner)
+                if (this.history.length) {
+                    const { move } = this.history[this.history.length - 1]
+                    this.nextMove = move === 'o' ? 'x' : 'o'
+                }
+
+                this.history = [...this.history, { location: cell, move: this.nextMove }]
+                this.winner = this.checkWinner()
+
+                return this.nextMove === 'o' ? this.circle : this.cross
+            },
+            get _matrix() {
+                return this.matrix
+            },
+            notFoundWinner() {
+                return this.winner === false
+            },
+            restart() {
+                this.history = [] // { location: null, move: null }
+                this.nextMove = 'o'
+                this.winner = false
+                this.winArea = []
+                this.matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            resultAnnounce() {
+                const xWin = "The final winner is X. Select RESTART to start your new game."
+                const oWin = "The final winner is O. Select RESTART to start your new game."
+                const drawGame = "The result is draw game. Select RESTART to start your new game."
+
+                switch (this.winner) {
+                    case 'o':
+                        return oWin
+                        break;
+
+                    case 'x':
+                        return xWin
+                        break;
+                    default:
+                        console.log('this.winner', this.winner)
+                        return drawGame
+                        break;
+                }
+            }
+
+        }
+    }
+</script>
+
+</html>

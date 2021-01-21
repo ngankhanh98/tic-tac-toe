@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/d8032aac70.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+
+    <!-- Navigation bar  -->
+    <nav class="bg-gray-800">
+        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+            <div class="relative flex items-center justify-between">
+                <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="hidden sm:block sm:ml-6 py-5">
+                        <div class="flex space-x-4">
+                            <a href="/tic-tac-toe"
+                                class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Tic
+                                tac toe</a>
+                            <a href="/pokemon-search"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Pokemon
+                                search</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sm:hidden py-2">
+            <div class="px-2 pb-3 space-y-1">
+                <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Tic tac
+                    toe</a>
+                <a href="#"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Pokemon
+                    search</a>
+            </div>
+        </div>
+    </nav>
+    <!-- End of Navigation bar  -->
+
+    <div class="grid grid-cols-1 flex justify-items-center" x-data="searchPokemon()">
+        <!-- Search bar -->
+        <div class="flex m-3">
+            <input type="text" placeholder="ditto" x-model="keyword"
+                class="w-full p-3 mr-1 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-base shadow outline-none focus:outline-none focus:shadow-outline" />
+            <button type="button" @click="onSearch()"
+                class="inline-flex justify-center rounded-md border border-transparent shadow-sm p-3 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">Search</button>
+        </div>
+        <!-- End of Search bar  -->
+
+        <!-- Search result -->
+        <template x-if="result">
+            <img :src="result.sprites.front_default" alt="">
+        </template>
+        <!-- End of Search result -->
+
+    </div>
+
+
+</body>
+
+<script>
+    function searchPokemon() {
+        return {
+            keyword: '',
+            result: null,
+            async onSearch() {
+
+                //fetch API + update results
+                console.log('this.keyword', this.keyword)
+                const URL = `https://pokeapi.co/api/v2/pokemon/`
+                const res = await fetch(URL + this.keyword)
+                    .then(response => response.json())
+                    .then(data => this.result = data)
+                return res
+            },
+        }
+    }
+
+</script>
+
+</html>

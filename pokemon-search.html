@@ -53,7 +53,47 @@
 
         <!-- Search result -->
         <template x-if="result">
-            <img :src="result.sprites.front_default" alt="">
+            <!-- <img :src="result.sprites.front_default" alt=""> -->
+            <figure class="bg-gray-100 rounded-xl p-6 w-80">
+                <div class="flex">
+                    <p class="text-l flex bg-gray-200 p-1 rounded-md" style="font-family: Consolas"
+                        x-text="result.name"></p>
+
+                </div>
+                <img class="w-32 h-32 rounded-full mx-auto" :src="result.sprites.front_default" width="384"
+                    height="512" />
+                <table class="table-fixed">
+                    <thead>
+                        <tr>
+                            <th class="w-1/5 text-center">Skills</th>
+                            <th class="w-1/5">Stats</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-500 px-4 py-2 font-medium">HP</td>
+                            <td class="border border-gray-500 px-4 py-2 font-medium"
+                                :x-text="result.stats.filter(e=>e.stat.name==='hp')[0].base_stat"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-500 px-4 py-2 font-medium">Attack</td>
+                            <td class="border border-gray-500 px-4 py-2 font-medium"
+                                :x-text="result.stats.filter(e=>e.stat.name==='attack')[0].base_stat"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-500 px-4 py-2 font-medium">Defense</td>
+                            <td class="border border-gray-500 px-4 py-2 font-medium"
+                                :x-text="result.stats.filter(e=>e.stat.name==='defense')[0].base_stat"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-500 px-4 py-2 font-medium">Speed</td>
+                            <td class="border border-gray-500 px-4 py-2 font-medium"
+                                :x-text="result.stats.filter(e=>e.stat.name==='speed')[0].base_stat"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </figure>
+
         </template>
         <!-- End of Search result -->
 

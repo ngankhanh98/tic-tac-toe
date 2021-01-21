@@ -21,10 +21,10 @@
                     <div class="hidden sm:block sm:ml-6 py-5">
                         <div class="flex space-x-4">
                             <a href="#"
-                                x-bind:class="[ location.pathname === '/tic-tac-toe.html' ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium']">
+                                x-bind:class="[ location.pathname.includes('/tic-tac-toe.html') ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium']">
                                 Tic tac toe</a>
                             <a href="pokemon-search.html"
-                                x-bind:class="[ location.pathname === '/pokemon-search.html' ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium']">
+                                x-bind:class="[ location.pathname.includes('/pokemon-search.html') ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium']">
                                 Pokemon search</a>
                         </div>
                     </div>
@@ -34,11 +34,12 @@
 
         <div class="sm:hidden py-2">
             <div class="px-2 pb-3 space-y-1">
-                <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Tic tac
-                    toe</a>
+                <a href="#"
+                    x-bind:class="[ location.pathname.includes('/tic-tac-toe.html') ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium']">
+                    Tic tac toe</a>
                 <a href="pokemon-search.html"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Pokemon
-                    search</a>
+                    x-bind:class="[ location.pathname.includes('/pokemon-search.html') ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium']">
+                    Pokemon search</a>
             </div>
         </div>
     </nav>

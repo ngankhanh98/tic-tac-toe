@@ -156,8 +156,12 @@
             async onSearch() {
                 this.result = null
 
-
                 const standardKeyword = this.keyword.toLowerCase()
+
+                if (standardKeyword === '') {
+                    return this.isError = "Please enter search item"
+                }
+
                 const URL = `https://pokeapi.co/api/v2/pokemon/`
                 this.isLoading = true
 

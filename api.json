@@ -23,19 +23,28 @@
       "name": "Brazil",
       "get-latest-api": "https://api.apify.com/v2/key-value-stores/TyToNta7jGKkpszMZ/records/LATEST?disableRedirect=true",
       "get-history-api": "https://api.apify.com/v2/datasets/3S2T1ZBxB9zhRJTBB/items?format=json&clean=1",
-      "get-history-schema": {}
+      "get-history-schema": {
+        "infected": 121,
+        "lastUpdatedAtSource": "2020-03-14T19:25:00.000Z"
+      }
     },
     {
       "name": "Russia",
       "get-latest-api": "https://api.apify.com/v2/key-value-stores/1brJ0NLbQaJKPTWMO/records/LATEST?disableRedirect=true",
       "get-history-api": "https://api.apify.com/v2/datasets/5JO5GL1h8Qv1CnG0m/items?format=json",
-      "get-history-schema": {}
+      "get-history-schema": {
+        "infectedTotal": 438,
+        "lastUpdatedAtApify": "2020-03-23T15:45:08.812Z"
+      }
     },
     {
       "name": "United Kingdom",
       "get-latest-api": "https://api.apify.com/v2/key-value-stores/KWLojgM5r1JmMW4b4/records/LATEST?disableRedirect=true",
       "get-history-api": "https://api.apify.com/v2/datasets/K1mXdufnpvr53AFk6/items?format=json&clean=1",
-      "get-history-schema": {}
+      "get-history-schema": {
+        "totalInfected": 5683,
+        "lastUpdatedAtApify": "2020-03-22T18:24:00.000Z"
+      }
     }
   ]
 }

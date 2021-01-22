@@ -1,4 +1,3 @@
-
 var dataSeries = [
     [{
         "date": "2014-01-01",
@@ -1444,6 +1443,8 @@ var dataSeries = [
     }
     ]
 ]
+
+
 var dates = [];
 for (var i = 0; i < 120; i++) {
     var innerArr = [Date.parse(dataSeries[1][i].date), dataSeries[1][i].value];

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid chart</title>
+    <!-- Alpinejs -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="container-fluid">
+            <div>
+                <select class="form-select" aria-label="Location" id="location-select"></select>
+            </div>
+            <div id="chart-area">
+                <div id="chart"></div>
+            </div>
+            <table class="table table-bordered border-primary" x-data="table()" x-init="init()">
+                <thead>
+                    <tr>
+                        <th class="col-4">Location</th>
+                        <th class="col-2">Cases</th>
+                        <th class="col-2">Recovered</th>
+                        <th class="col-2">Deaths</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="row in dataset" :key="row.name">
+                        <tr>
+                            <td x-text="row.name"></td>
+                            <td x-text="row.cases"></td>
+                            <td x-text="row.recovered"></td>
+                            <td x-text="row.deaths"></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+    // Initialize #location-select
+    (async () => {
+        const url = await fetch('api.json')
+            .then(response => response.json())
+            .then(data => data['countries-all']);
+
+        const countries = await fetch(url)
+            .then((result) => result.json())
+            .then((data) => data)
+            .catch((err) => console.log('err', err));
+
+        const html = countries.reduce((accumulator, currentCountry) => {
+            accumulator += `<option value="${currentCountry.alpha2Code}">${currentCountry.name}</option>`
+            return accumulator
+        }, "")
+
+        const locationSelect = document.getElementById('location-select')
+        locationSelect.innerHTML += html
+    })()
+</script>
+
+<script src="./covid-table.js"></script>
+<script>
+    function table() {
+        return {
+            dataset: null,
+            normalizeData(data) {
+                const casesSynonym = 'infected case totalCases cases'
+                const recoveredSynonym = 'recovered'
+                const deathsSynonym = 'deceased deaths fatal death totalDeaths'
+
+                let cases, recovered, deaths
+
+                for (const [key, value] of Object.entries(data)) {
+                    if (casesSynonym.match(key))
+                        cases = value
+                    if (recoveredSynonym.match(key))
+                        recovered = value
+                    if (deathsSynonym.match(key))
+                        deaths = value
+                }
+                return { name: data.name, cases: cases, recovered: recovered, deaths: deaths }
+            },
+            async init() {
+                const sources = await fetch('api.json')
+                    .then(response => response.json())
+                    .then(data => data['covid-stats']);
+                console.log('sources', sources)
+
+                console.log('sources', sources)
+                const requests = sources.map(source =>
+                    fetch(source['get-latest-api']).then((result) => result.json()).then((data) => this.normalizeData({ ...data, name: source.name }))
+                )
+
+                Promise.all(requests).then((value) => {
+                    this.dataset = value
+                })
+            }
+        }
+    }
+</script>
+<script src="./covid-chart.js"></script>
+
+
+</html>

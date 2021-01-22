@@ -1,0 +1,30 @@
+{
+  "countries-all": "https://restcountries.eu/rest/v2/all",
+  "covid-stats": [
+    {
+      "name": "United States",
+      "get-latest-api": "https://api.apify.com/v2/key-value-stores/moxA3Q0aZh5LosewB/records/LATEST?disableRedirect=true",
+      "get-history-api": "https://api.apify.com/v2/datasets/FIbyK6uHUntt2kNy3/items?format=json&clean=1"
+    },
+    {
+      "name": "India",
+      "get-latest-api": "https://api.apify.com/v2/key-value-stores/toDWvRj1JpTXiM8FF/records/LATEST?disableRedirect=true",
+      "get-history-api": "https://api.apify.com/v2/datasets/58a4VXwBBF0HtxuQa/items?format=json&clean=1"
+    },
+    {
+      "name": "Brazil",
+      "get-latest-api": "https://api.apify.com/v2/key-value-stores/TyToNta7jGKkpszMZ/records/LATEST?disableRedirect=true",
+      "get-history-api": "https://api.apify.com/v2/datasets/3S2T1ZBxB9zhRJTBB/items?format=json&clean=1"
+    },
+    {
+      "name": "Russia",
+      "get-latest-api": "https://api.apify.com/v2/key-value-stores/1brJ0NLbQaJKPTWMO/records/LATEST?disableRedirect=true",
+      "get-history-api": "https://api.apify.com/v2/datasets/5JO5GL1h8Qv1CnG0m/items?format=json"
+    },
+    {
+      "name": "United Kingdom",
+      "get-latest-api": "https://api.apify.com/v2/key-value-stores/KWLojgM5r1JmMW4b4/records/LATEST?disableRedirect=true",
+      "get-history-api": "https://api.apify.com/v2/datasets/K1mXdufnpvr53AFk6/items?format=json&clean=1"
+    }
+  ]
+}
